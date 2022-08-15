@@ -32,7 +32,7 @@ class Article {
     return Article(
       //source: Source.fromJson(json['source']),
       author: json['author']== null?'Unknown':json['author'] as String,
-      title: json['title'] as String,
+      title: json['title'] == null?'Not Title available':json['title'] as String,
       description: json['description'] == null?'':json['description'] as String,
       url: json['url']==null?'':json['url'] as String,
       urlToImage: json['urlToImage']==null?'https://i0.wp.com/www.cssscript.com/wp-content/uploads/2015/11/ispinner.jpg?fit=400%2C298&ssl=1':json['urlToImage'] as String,
