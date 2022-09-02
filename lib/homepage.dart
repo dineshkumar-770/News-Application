@@ -5,6 +5,8 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_news_app/artical_model.dart';
 import 'package:flutter_news_app/content_page.dart';
+import 'package:flutter_news_app/search_screen.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 
@@ -26,7 +28,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<List<Article>> getArticle() async {
-    Uri endpointUrl = Uri.parse('https://newsapi.org/v2/everything?q=america&from=2022-08-07&sortBy=publishedAt&apiKey=c882c51d110f4e01a4631584f7aecb6a');
+    Uri endpointUrl = Uri.parse('https://newsapi.org/v2/everything?q=world&from=2022-08-07&sortBy=publishedAt&apiKey=c882c51d110f4e01a4631584f7aecb6a');
     var res = await get(endpointUrl);
     print(res.statusCode);
     if (res.statusCode == 200) {
@@ -51,10 +53,17 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.black,
+        elevation: 10,
+        backgroundColor: Color(0xff414A4C),
         centerTitle: true,
-        title: Text('INTERNATIONAL', style: GoogleFonts.robotoSlab(fontSize: 29, letterSpacing: 5, fontWeight: FontWeight.bold),),
+        actions:[
+          IconButton(onPressed: (){
+            Navigator.push(context, CupertinoPageRoute(builder: (context){
+              return SearchScreen();
+            }));
+          }, icon: Icon(FontAwesomeIcons.searchengin))
+        ],
+        title: Text('WORLD', style: GoogleFonts.robotoSlab(color: Colors.amber.shade100,fontSize: 29, letterSpacing: 5, fontWeight: FontWeight.bold),),
       ),
       body: SafeArea(
         child: FutureBuilder<List<Article>>(
@@ -65,7 +74,7 @@ class _HomePageState extends State<HomePage> {
             }else{
               if(snapshot.hasError){
                 print(snapshot.error);
-                return Center(child: Text('No Internet Connection'),);
+                return Center(child: Text('Something went wrong. Try again later'),);
               }else{
                 return Center(child: ListView.builder(
                   itemCount: snapshot.data.length,
@@ -93,7 +102,9 @@ class _HomePageState extends State<HomePage> {
                                 mainDiscription: snapshot.data[index].description,
                                 mainContent: snapshot.data[index].content,
                                 mainImageUrl: snapshot.data[index].urlToImage,
-                                mainContentHeading: snapshot.data[index].title);
+                                mainContentHeading: snapshot.data[index].title,
+                                mainAuthor: snapshot.data[index].author,
+                                );
                             }));
                           },
                           child: Container(
@@ -104,7 +115,7 @@ class _HomePageState extends State<HomePage> {
                               borderRadius: BorderRadius.circular(30),
                               ),
                               child: Padding(
-                          padding: const EdgeInsets.fromLTRB(20, 100, 20, 0),
+                          padding: const EdgeInsets.fromLTRB(20, 80, 20, 0),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             crossAxisAlignment: CrossAxisAlignment.start,

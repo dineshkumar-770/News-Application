@@ -5,31 +5,33 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_news_app/artical_model.dart';
 import 'package:flutter_news_app/content_page.dart';
+import 'package:flutter_news_app/search_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 
-import '../search_screen.dart';
+class CustomSearch extends StatefulWidget {
 
-class TechNews extends StatefulWidget {
-  const TechNews({Key? key}) : super(key: key);
+  String keywordValue;
+
+  CustomSearch({required this.keywordValue});
 
   @override
-  State<TechNews> createState() => _TechNewsState();
+  State<CustomSearch> createState() => _CustomSearchState();
 }
 
-class _TechNewsState extends State<TechNews> {
+class _CustomSearchState extends State<CustomSearch> {
 
   
 
   @override
   void initState() {
     super.initState();
-    getArticle();
+    getArticle(widget.keywordValue);
   }
 
-  Future<List<Article>> getArticle() async {
-    Uri endpointUrl = Uri.parse('https://newsapi.org/v2/everything?q=technology&from=2022-08-07&sortBy=publishedAt&apiKey=c882c51d110f4e01a4631584f7aecb6a');
+  Future<List<Article>> getArticle(String keyvale) async {
+    Uri endpointUrl = Uri.parse('https://newsapi.org/v2/everything?q=$keyvale&sortBy=publishedAt&apiKey=c882c51d110f4e01a4631584f7aecb6a');
     var res = await get(endpointUrl);
     print(res.statusCode);
     if (res.statusCode == 200) {
@@ -57,18 +59,18 @@ class _TechNewsState extends State<TechNews> {
         elevation: 10,
         backgroundColor: Color(0xff414A4C),
         centerTitle: true,
-        actions: [
+        actions:[
           IconButton(onPressed: (){
             Navigator.push(context, CupertinoPageRoute(builder: (context){
               return SearchScreen();
             }));
           }, icon: Icon(FontAwesomeIcons.searchengin))
         ],
-        title: Text('TECHNOLOGY', style: GoogleFonts.robotoSlab(color: Colors.amber.shade100,fontSize: 29, letterSpacing: 5, fontWeight: FontWeight.bold),),
+        title: Text(widget.keywordValue.toUpperCase(), style: GoogleFonts.robotoSlab(color: Colors.amber.shade100,fontSize: 29, letterSpacing: 5, fontWeight: FontWeight.bold),),
       ),
       body: SafeArea(
         child: FutureBuilder<List<Article>>(
-          future: getArticle(),
+          future: getArticle(widget.keywordValue),
           builder: (BuildContext context,AsyncSnapshot snapshot){
             if(snapshot.connectionState == ConnectionState.waiting){
               return Center(child: CircularProgressIndicator(),);

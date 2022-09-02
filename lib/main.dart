@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_news_app/homepage.dart';
 import 'package:flutter_news_app/main_screen.dart';
+import 'package:flutter_news_app/search_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,6 +17,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData.dark(
+      ).copyWith(
+        primaryColor: Colors.amber.shade200
       ),
       home: const MainScreen(),
     );

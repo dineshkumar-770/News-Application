@@ -35,7 +35,7 @@ class Article {
       title: json['title'] == null?'Not Title available':json['title'] as String,
       description: json['description'] == null?'':json['description'] as String,
       url: json['url']==null?'':json['url'] as String,
-      urlToImage: json['urlToImage']==null?'https://i0.wp.com/www.cssscript.com/wp-content/uploads/2015/11/ispinner.jpg?fit=400%2C298&ssl=1':json['urlToImage'] as String,
+      urlToImage: json['urlToImage']==null?'https://user-images.githubusercontent.com/10515204/56117400-9a911800-5f85-11e9-878b-3f998609a6c8.jpg':json['urlToImage'] as String,
       publishedAt: json['publishedAt']==null?'Unknown':json['publishedAt'] as String,
       content: json['content'] == null?'Content Not Available':json['content'] as String,
     );
